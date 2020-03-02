@@ -2,6 +2,14 @@
 
 For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can! I only care about media files. I'm not editing the files after I download it.
 
+To find an ifps file by name.
+
+`jrnl file @somefile`
+
+To find by name and other tag.
+
+`jrnl file @somefile @sometag -and` to get the file hash.
+
 To get right to it, go straight to [Setup](#setup).
 
 #### Git
@@ -132,7 +140,7 @@ If it looks good, go ahead and git commit and push.
 
 To retreive a hash based on tags and metadata.
 
-`jrnl @FILE-NAME` or `jrnl @FILE-NAME @[OTHER-TAG] -and` to get the file hash.
+`jrnl file @FILE-NAME` or `jrnl file @FILE-NAME @[OTHER-TAG] -and` to get the file hash.
 
 If you want to search by 'metadata', just open up
 
