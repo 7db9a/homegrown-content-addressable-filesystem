@@ -2,15 +2,19 @@
 
 For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can! I only care about media files. I'm not editing the files after I download it.
 
-To find an ifps file by name.
+To find an ipfs video by name on any node on your network.
 
-`jrnl file @somefile`
+`jrnl file @video-name`
 
 To find by name and other tag.
 
-`jrnl file @somefile @sometag -and` to get the file hash.
+`jrnl file @video-name @mp4 -and` to get the file hash.
 
-To get right to it, go straight to [Setup](#setup).
+Play the file by visiting `http://localhost:8080/ipfs/$ipfshash`.
+
+## Dependencies
+
+To skip all this, go straight to [Setup](#setup).
 
 #### Git
 
