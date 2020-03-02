@@ -2,6 +2,8 @@
 
 Can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can!
 
+This solution doesn't scale, but it works for me as a single user.
+
 To get right to it, go straight to [Setup](#setup).
 
 #### Git
@@ -98,3 +100,51 @@ alias jfgp="cd ~/path/to/journal/content-addressable-files && git push origin ma
 # git status
 alias jfgs="cd ~/path/to/journal/content-addressable-files && git status && cd -"
 ```
+
+## Usage
+
+Make sure your ipfs-network is up. If you don't remember how, see [here](https://github.com/7db9a/private-ipfs-docker).
+
+#### Add a file to ipfs.
+
+Stage the file.
+
+`cp /path/to/file /path/private-ipfs-docker/private-ipfs-network/staging/`
+
+Add to ipfs.
+
+`docker exec ipfs_host ipfs add /export/file`
+
+You'll get a hash. Use that for the next step.
+
+
+#### Tag and create metadata
+
+`jrnl file 'This is a file that does awesome stuff. @FILE-NAME @[OTHER-TAG]  @IPFS-HASH'` Now you can do
+
+See the file diff.
+
+`jfgd`
+
+If it looks good, go ahead and git commit and push.
+
+```
+jfgc
+jfgp
+```
+`jrnl @FILE-NAME` or `jrnl @FILE-NAME @[OTHER-TAG] -and` to get the file hash.
+
+
+#### Open or play the file
+
+If it's a non-media file.
+
+`docker exec ipfs_host ipfs cat IPFS-HASH`
+
+If it's a video, for demonstration purposes:
+
+`http://localhost:8080/ipfs/IPFS-HASH`
+
+You can download the file on the other machine on that local webpage.
+
+For more details on accessing your ipfs videos, see [here](https://docs.ipfs.io/guides/examples/videos/)
