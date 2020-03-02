@@ -34,7 +34,7 @@ cd journals/content-addressable-files/
 git init
 ```
 
-All the tags, and metadata of your IPFS files will be here. You may want to version control this.
+All the tags and other metadata on your IPFS files will be here. You may want to version control this.
 
 #### Setup remote git repo (optional)
 
