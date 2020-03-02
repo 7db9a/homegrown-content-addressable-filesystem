@@ -1,8 +1,6 @@
 # Homegrown content addressable media file system
 
-Can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can!
-
-This solution doesn't scale, but it works for me as a single user.
+For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can! I only care about media files. I'm not editing the files after I download it.
 
 To get right to it, go straight to [Setup](#setup).
 
@@ -12,7 +10,7 @@ If our data store (file name and other metadata) is a plain text file, we just e
 
 #### IPFS
 
-IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and File API, but it's too complicated for my use case here.
+IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and I saw something about [Files API](https://www.youtube.com/watch?v=FX_AXNDsZ9k&t=315s), but I have know idea if Files API is implemented. In any case, it's too complicated at the moment for me to deal with.
 
 #### Jrnl
 
@@ -128,12 +126,19 @@ See the file diff.
 
 If it looks good, go ahead and git commit and push.
 
-```
-jfgc
-jfgp
-```
+`jfgc && jfgp`
+
+#### Find files by tags and metadata
+
+To retreive a hash based on tags and metadata.
+
 `jrnl @FILE-NAME` or `jrnl @FILE-NAME @[OTHER-TAG] -and` to get the file hash.
 
+If you want to search by 'metadata', just open up
+
+`~/path/to/journal/content-addressable-files/content-addressable-files.txt`
+
+and search using your editor. It's not very elegant, but this is homegrown and experimental.
 
 #### Open or play the file
 
@@ -141,10 +146,10 @@ If it's a non-media file.
 
 `docker exec ipfs_host ipfs cat IPFS-HASH`
 
-If it's a video, for demonstration purposes:
+If it's a video.
 
 `http://localhost:8080/ipfs/IPFS-HASH`
 
 You can download the file on the other machine on that local webpage.
 
-For more details on accessing your ipfs videos, see [here](https://docs.ipfs.io/guides/examples/videos/)
+For more details on accessing your ipfs videos, see [here](https://docs.ipfs.io/guides/examples/videos/).
