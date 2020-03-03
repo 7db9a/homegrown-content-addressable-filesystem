@@ -2,15 +2,40 @@
 
 For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can! I only care about media files. I'm not editing the files after I download it.
 
-To find an ipfs file by name on any node on your network.
+## Table of Contents
 
-`jrnl file @filename`
+1. [Usage](#usage)
+2. [Dependencies](#dependencies)
+3. [Setup](#setup)
+4. [Low-level usage](#low-level-usage)
 
-To find by name and other tag.
+## Usage
 
-`jrnl file @filename @mp4 -and` to get the file hash.
+**Add a file. You'll need the ipfs hash it prints out.**
 
-Play or open the file by visiting `http://localhost:8080/ipfs/$ipfshash`.
+`content-addr add $filename`
+
+**Create tags and metadata.**
+
+`jrnl file 'any metadata or descriptions here @$filename @$othertag @$ipfshash'`
+
+**Commit and push changes to jrnl.**
+
+`jfgc && jfgp`
+
+**Find a file hash on any node.**
+
+`jrnl file @$filename`
+
+`jrnl file @$filename @#othertag -and`
+
+**Find a name associated with a file hash on any node.**
+
+`jrnl file @ipfshash`
+
+**Play or open a file on any node.**
+
+`http://localhost:8080/ipfs/$ipfshash`
 
 ## Dependencies
 
@@ -41,26 +66,21 @@ Make the script executable.
 
 `chmod +x content-addressable-filesystem/content-addr.sh`
 
-The script is a tool to avoid a series of long and repetitive commands, such as sending a file to your private ipfs.
+The script is for the `content-addr` commands and related.
 
 #### Setup a private IPFS network
 
 https://github.com/7db9a/private-ipfs-docker
 
-#### Add path to ipfs stage
+#### Add path and symlink
 
 Add the following to your .bashrc or other something similar to your shell related file.
 
-```
-export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
-
-```
+`export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
 
 Put in your own specific path `private-ipfs-docker/private-network-ipfs/staging`. You should have already setup the private ipfs network.
 
-#### Symlink
-
-Symlink `content-addressable-filesystem`:
+Symlink `content-addressable-filesystem`.
 
 ```
 mkdir $HOME/.content-addressable-filesystem
@@ -153,10 +173,6 @@ alias jfgp="cd ~/path/to/journal/content-addressable-files && git push origin ma
 alias jfgs="cd ~/path/to/journal/content-addressable-files && git status && cd -"
 ```
 
-## Usage
-
-`content-addr add FILE-NAME`
-
 ## Low-level usage.
 
 Make sure your ipfs-network is up. If you don't remember how, see [here](https://github.com/7db9a/private-ipfs-docker).
@@ -202,11 +218,11 @@ and search using your editor. It's not very elegant, but this is homegrown and e
 
 If it's a non-media file.
 
-`docker exec ipfs_host ipfs cat IPFS-HASH`
+`docker exec ipfs_host ipfs cat $ipfshash`
 
 If it's a video.
 
-`http://localhost:8080/ipfs/IPFS-HASH`
+`http://localhost:8080/ipfs/$ipfshash`
 
 You can download the file on the other machine on that local webpage.
 
