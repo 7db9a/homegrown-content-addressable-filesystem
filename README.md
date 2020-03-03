@@ -30,9 +30,55 @@ You can tag anything via cli. It uses a plain text file, which is perfect for gi
 
 ## Setup
 
+#### Clone this repo
+
+```
+git clone https://github.com/7db9a/homegrown-content-addressable-filesystem content-addressable-filesystem
+
+```
+
+Make the script executable.
+
+`chmod +x content-addressable-filesystem/content-addr.sh`
+
+The script is a tool to avoid a series of long and repetitive commands, such as sending a file to your private ipfs.
+
 #### Setup a private IPFS network
 
 https://github.com/7db9a/private-ipfs-docker
+
+#### Add path to ipfs stage
+
+In the cloned repo `content-addressable-filesystem`, create a `env.sh` file:
+
+```
+PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
+
+```
+
+Put in your own specific path `private-ipfs-docker/private-network-ipfs/staging`. You should have already setup the private ipfs network.
+
+`git status`
+
+If it shows up as a new file, you're in the wrong directory. The cloned repo you must be in for this has `env.sh` in .gitignore.
+
+#### Symlink
+
+Symlink `content-addressable-filesystem`:
+
+```
+mkdir $HOME/.content-addressable-filesystem
+cd .content-addressable-filesystem
+ln -s /path/to/content-addressable-file-system/* .
+```
+
+Add executable to path.
+
+```
+sudo ln -s \
+~/.content-addr-filesystem/content-addr.sh \
+/usr/local/bin/content-addr
+```
 
 #### Install jrnl
 
