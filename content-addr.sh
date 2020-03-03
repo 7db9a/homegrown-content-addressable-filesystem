@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Imports PRIV_IPFS_STAGE, which is the path to staging directory.
-source env.sh
+# You must add the PRIV_IPFS_STAGE environmental variable to your .bashrc (or the file for whichever shell you use).
+#
+# export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging
+#
 
 send-file-to-ipfs() {
     stage-file $1
@@ -24,7 +26,7 @@ ipfs-add() {
 }
 
 stage-file() {
-    cp $1 $PRIV_IPFS_STAGE/
+    cp $(pwd)/$1 $PRIV_IPFS_STAGE/$1
 }
 
 # Porcelain cmd
