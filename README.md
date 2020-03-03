@@ -159,6 +159,10 @@ alias jfgs="cd ~/path/to/journal/content-addressable-files && git status && cd -
 
 ## Usage
 
+`content-addr add FILE-NAME`
+
+## Low-level usage.
+
 Make sure your ipfs-network is up. If you don't remember how, see [here](https://github.com/7db9a/private-ipfs-docker).
 
 #### Add a file to ipfs.
