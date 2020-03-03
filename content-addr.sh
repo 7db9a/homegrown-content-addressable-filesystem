@@ -24,7 +24,7 @@ ipfs-add() {
 }
 
 stage-file() {
-cp $1 $PRIV_IPFS_STAGE/
+    cp $1 $PRIV_IPFS_STAGE/
 }
 
 # Porcelain cmd
