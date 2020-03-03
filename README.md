@@ -1,6 +1,14 @@
 # Homegrown content addressable media file system
 
-For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can! I only care about media files. I'm not editing the files after I download it.
+For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can!
+
+* No duplicate files thanks to ipfs hash.
+
+* No file syncing between your machines.
+
+* Files searchable by tags and other metadata and from any machine.
+
+* Files aren't edited (on rare occassions you can edit the tags) , so mostly media files.
 
 ## Table of Contents
 
