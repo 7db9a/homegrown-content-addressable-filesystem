@@ -168,7 +168,7 @@ This works for me in bash and zsh.
 
 ```
 # git commit
-alias jfgc="cd ~/path/to/journal/content-addressable-files && git add content-addressable-content-addressable-files.txt && git commit -m 'New entry or entries.' && cd -"
+alias jfgc="cd ~/path/to/journal/content-addressable-files && git add content-addressable-files.txt && git commit -m 'New entry or entries.' && cd -"
 # git diff
 alias jfgd="cd ~/path/to/journal/content-addressable-files && git diff && cd -"
 # git diff --check
