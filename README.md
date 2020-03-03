@@ -26,7 +26,7 @@ IPFS is good. You can create a private network and avoid syncing media files. Th
 
 #### Jrnl
 
-You can tag anything via cli. It uses a plain text file, which is perfect for git, and its easy to search.
+You can tag anything via cli. It uses a plain text file, which is perfect for git, and it's easy to search.
 
 ## Setup
 
@@ -69,7 +69,7 @@ ssh://user@address/path/to/journals/content-addressables/`
 ```
 #### Create jrnl config file
 
-***WARNING: skip this part and refer to jrnl's instructsion [here](https://jrnl.sh/advanced/). `Create jrnl config file` is dated. Looks like `jrnl` uses a yaml file now.***
+***WARNING: skip this part and refer to jrnl's instructions [here](https://jrnl.sh/advanced/). `Create jrnl config file` is dated. Looks like `jrnl` uses a yaml file now.***
 
 `jrnl` will look for a $HOME/.jrnl_config.
 
