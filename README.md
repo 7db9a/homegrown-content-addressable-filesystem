@@ -49,18 +49,14 @@ https://github.com/7db9a/private-ipfs-docker
 
 #### Add path to ipfs stage
 
-In the cloned repo `content-addressable-filesystem`, create a `env.sh` file:
+Add the following to your .bashrc or other something similar to your shell related file.
 
 ```
-PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
+export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
 
 ```
 
 Put in your own specific path `private-ipfs-docker/private-network-ipfs/staging`. You should have already setup the private ipfs network.
-
-`git status`
-
-If it shows up as a new file, you're in the wrong directory. The cloned repo you must be in for this has `env.sh` in .gitignore.
 
 #### Symlink
 
