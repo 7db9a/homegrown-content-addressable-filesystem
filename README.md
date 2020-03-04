@@ -6,16 +6,18 @@ For experimental purposes, can you hobble together a content addressable media f
 
 * No file syncing between your machines.
 
-* Files searchable by tags and other metadata and from any machine.
+* Files searchable by tags and other metadata from ***any*** machine on the network.
 
-* Files aren't edited (on rare occassions you can edit the tags) , so mostly media files.
+* Files aren't edited (on rare occasion you can edit the tags) , so mostly this for immutable media files.
+
+* Optionally backup nodes to a single server.
 
 ## Table of Contents
 
 1. [Usage](#usage)
 2. [Dependencies](#dependencies)
 3. [Setup](#setup)
-4. [Low-level usage](#low-level-usage)
+4. [Advanced usage](#advanced-usage)
 
 ## Usage
 
@@ -55,11 +57,14 @@ If our data store (file name and other metadata) is a plain text file, we just e
 
 #### IPFS
 
-IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and I saw something about [Files API](https://www.youtube.com/watch?v=FX_AXNDsZ9k&t=315s), but I have know idea if Files API is implemented. In any case, it's too complicated at the moment for me to deal with.
+IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and there is IPFS does have a an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is bad idea. I'd rather push and pull to a central 'names repo'.
+
 
 #### Jrnl
 
 You can tag anything via cli. It uses a plain text file, which is perfect for git, and it's easy to search.
+
+If anyone has figured out how to push or pull ipfs's Mutable File System changes to nodes, tell me and the world. Is [ipfs-blob-store](https://github.com/ipfs-shipyard/ipfs-blob-store) any bit useful for this? Again, the 'names repo' should be like a git repo. You should be able to push and pull changes to avoid syncing issues.
 
 ## Setup
 
@@ -181,7 +186,28 @@ alias jfgp="cd ~/path/to/journal/content-addressable-files && git push origin ma
 alias jfgs="cd ~/path/to/journal/content-addressable-files && git status && cd -"
 ```
 
-## Low-level usage.
+## Advanced usage
+
+### Backup a node
+
+To backup your ipfs data to any server you can ssh into (preferable a swarm peer).
+
+```
+content-addr backup \
+$ssh-user $ssh-address \
+/path/to/content-addressable-filesystem/node-backup/ipfs/$peer-id
+```
+If you don't have the path made already, you should make it on the backup server.
+
+(Personal note: I saved my full command at `jrnl linux $content-addr @backup -and`).
+
+$peer-id is the Peer ID of the node you are backing up. To get your Peer ID:
+
+`docker exec -it ipfs_host id`
+
+Doesn't backing up defeat the purpose of ipfs? No, this is a private network and if a node's hard-drive fails, you'll lose all its local ipfs files. Therefore, I prefer to backup each node to a single server.
+
+### Low-level usage
 
 Make sure your ipfs-network is up. If you don't remember how, see [here](https://github.com/7db9a/private-ipfs-docker).
 
