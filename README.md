@@ -1,16 +1,16 @@
 # Homegrown content addressable media file system
 
-For experimental purposes, can you hobble together a content addressable media file system with open-source tools 'just laying around'? Yes, you can!
+For experimental purposes, can you hobble together a content addressable media file system that does the following with open-source tools 'just laying around'?
 
-* No duplicate files thanks to ipfs hash.
-
-* No file syncing between your machines.
+* Retreive files on any node without syncing.
 
 * Files searchable by tags and other metadata from ***any*** machine on the network.
 
-* Files aren't edited (on rare occasion you can edit the tags) , so mostly this for immutable media files.
+* Files aren't edited (on rare occasion you can edit the tags) , so mostly applicable to 'immutable' media files.
 
 * Optionally backup nodes to a single server.
+
+Yes, you can! I use git, ipfs, and jrnl. It's a hack, but it works and I'm getting immediate benefits.
 
 ## Table of Contents
 
@@ -57,14 +57,16 @@ If our data store (file name and other metadata) is a plain text file, we just e
 
 #### IPFS
 
-IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and there is IPFS does have a an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is bad idea. I'd rather push and pull to a central 'names repo'.
+IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and IPFS does have an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is a bad idea for my use case. I'd rather push and pull to a central 'names repo'. That's where jrnl comes in.
 
 
 #### Jrnl
 
-You can tag anything via cli. It uses a plain text file, which is perfect for git, and it's easy to search.
+You can tag anything via cli. It uses a plain text file, which is perfect for git versioning.
 
-If anyone has figured out how to push or pull ipfs's Mutable File System changes to nodes, tell me and the world. Is [ipfs-blob-store](https://github.com/ipfs-shipyard/ipfs-blob-store) any bit useful for this? Again, the 'names repo' should be like a git repo. You should be able to push and pull changes to avoid syncing issues.
+Why not use a database? Because this is super-easy and I can find ipfs files by tags and also search the descriptions I add to each entry. I'd probably wouldn't use this if you have something on the order of 10,000,000 files or something. Anyway, I can easily parse the jrnl file and migrate to SQL in the future.
+
+If anyone has figured out how to push or pull ipfs' Mutable File System changes to central server, tell me and the world. Is [ipfs-blob-store](https://github.com/ipfs-shipyard/ipfs-blob-store) any bit useful for this? Again, the 'names repo' should be like a git repo. You should be able to push and pull changes to avoid syncing issues.
 
 ## Setup
 
