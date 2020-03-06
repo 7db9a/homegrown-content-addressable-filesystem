@@ -10,7 +10,7 @@ For experimental purposes, can you hobble together a content addressable media f
 
 * Optionally backup nodes to a single server.
 
-Yes, you can! I use git, ipfs, and jrnl. It's a hack, but it works and I'm getting immediate benefits.
+I think you can. I use git, ipfs, and tmsu. It's a hack, but it works and I'm getting immediate benefits.
 
 ## Table of Contents
 
@@ -27,21 +27,19 @@ Yes, you can! I use git, ipfs, and jrnl. It's a hack, but it works and I'm getti
 
 **Create tags and metadata.**
 
-`jrnl file 'any metadata or descriptions here @$filename @$othertag @$ipfshash'`
-
-**Commit and push changes to jrnl.**
-
-`jfgc && jfgp`
+`tmsu tag $ipfshash $tag...`
 
 **Find a file hash on any node.**
 
-`jrnl file @$filename`
-
-`jrnl file @$filename @#othertag -and`
+`tmsu files $tag...`
 
 **Find a name associated with a file hash on any node.**
 
-`jrnl file @ipfshash`
+`tmsu tags $ipfshash`
+
+**Get all untagged files**
+
+`tmsu untagged`
 
 **Play or open a file on any node.**
 
@@ -57,14 +55,11 @@ If our data store (file name and other metadata) is a plain text file, we just e
 
 #### IPFS
 
-IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and IPFS does have an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is a bad idea for my use case. I'd rather push and pull to a central 'names repo'. That's where jrnl comes in.
+IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and IPFS does have an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is a bad idea for my use case. I'd rather push and pull to a central 'names repo'. That's where versioning TMSU's database comes in.
 
+#### TMSU
 
-#### Jrnl
-
-You can tag anything via cli. It uses a plain text file, which is perfect for git versioning.
-
-Why not use a database? Because this is super-easy and I can find ipfs files by tags and also search the descriptions I add to each entry. I'd probably wouldn't use this if you have something on the order of 10,000,000 files or something. Anyway, I can easily parse the jrnl file and migrate to SQL in the future.
+You can tag anything via cli. And it can create virtual-file system. It uses sqlite. That can act as a central 'names repo'. The single-file database should be easy to version control with git. Only one user is making entries, so throughput isn't an issue. And it will elimunate syncing issues.
 
 If anyone has figured out how to push or pull ipfs' Mutable File System changes to central server, tell me and the world. Is [ipfs-blob-store](https://github.com/ipfs-shipyard/ipfs-blob-store) any bit useful for this? Again, the 'names repo' should be like a git repo. You should be able to push and pull changes to avoid syncing issues.
 
@@ -86,6 +81,10 @@ The script is for the `content-addr` commands and related.
 #### Setup a private IPFS network
 
 https://github.com/7db9a/private-ipfs-docker
+
+#### Setup TMSU
+
+https://github.com/7db9a/tmsu-docker
 
 #### Add path and symlink
 
@@ -111,83 +110,25 @@ sudo ln -s \
 /usr/local/bin/content-addr
 ```
 
-#### Install jrnl
-
-https://jrnl.sh/installation/
-
-#### Create a git repo for journal
-
-```
-mkdir -p journals/content-addressables/
-cd journals/content-addressable-files/
-git init
-```
-
-All the tags and other metadata on your IPFS files will be here. You may want to version control this.
-
-#### Setup remote git repo (optional)
+#### Setup remote git repo for TMSU db (haven't tried this yet so skip this for now)
 
 If you want to version the tags and metadata, may I recommend a private git server. It's easy.
 
 On any other machine of yours.
 
 ```
-mkdir -p /path/to/journals/content-addressables/
-cd /path/to/journals/content-addressable-files/
+mkdir -p /path/to/tmsu-db/content-addressables/
+cd /path/to/tmsu-db/content-addressable-files/
 git init --bare
 ```
 
 Then back to your original machine:
 
 ```
-cd /path/to/journals/content-addressables/
+cd /path/to/tmsu-db/content-addressables/
 git remote add origin \
-ssh://user@address/path/to/journals/content-addressables/`
+ssh://user@address/path/to/tmsu-db/content-addressables/`
 ```
-#### Create jrnl config file
-
-***WARNING: skip this part and refer to jrnl's instructions [here](https://jrnl.sh/advanced/). `Create jrnl config file` is dated. Looks like `jrnl` uses a yaml file now.***
-
-`jrnl` will look for a $HOME/.jrnl_config.
-
-Add this to the file.
-
-```
-{
-  "default_hour": 9,
-  "timeformat": "%Y-%m-%d %H:%M",
-  "linewrap": 79,
-  "encrypt": false,
-  "editor": "vim",
-  "default_minute": 0,
-  "highlight": true,
-  "journals": {
-    "file": "$HOME/journals/content-addressable-files/content-addressable-files.txt",
-  },
-  "tagsymbols": "@"
-```
-
-#### Create aliases (optional)
-
-If you are version controlling the tags and other metadata (recommended), you should create some aliases for git operations.
-
-This works for me in bash and zsh.
-
-```
-# git commit
-alias jfgc="cd ~/path/to/journal/content-addressable-files && git add content-addressable-files.txt && git commit -m 'New entry or entries.' && cd -"
-# git diff
-alias jfgd="cd ~/path/to/journal/content-addressable-files && git diff && cd -"
-# git diff --check
-alias jfgdc="cd ~/path/to/journal/content-addressable-files && git diff --check && cd -"
-# git log
-alias jfgl="cd ~/path/to/journal/content-addressable-files && git log && cd -"
-# git push
-alias jfgp="cd ~/path/to/journal/content-addressable-files && git push origin master && cd -"
-# git status
-alias jfgs="cd ~/path/to/journal/content-addressable-files && git status && cd -"
-```
-
 ## Advanced usage
 
 ### Backup a node
@@ -213,7 +154,7 @@ Doesn't backing up defeat the purpose of ipfs? No, this is a private network and
 
 $ ./get-pinned.sh
 
-It'll put all IPFS 'files' into `pinned-files` dir. Note, these are empty files. They're simply named after the IPFS hash.
+It'll put all IPFS 'files' into `pinned-files` dir. Note, these are empty files. They're simply named after the IPFS hash. This is for experimentiong with tmsu.
 
 ### Low-level usage
 
@@ -231,30 +172,6 @@ Add to ipfs.
 
 You'll get a hash. Use that for the next step.
 
-
-#### Tag and create metadata
-
-`jrnl file 'This is a file that does awesome stuff. @FILE-NAME @[OTHER-TAG]  @IPFS-HASH'` Now you can do
-
-See the file diff.
-
-`jfgd`
-
-If it looks good, go ahead and git commit and push.
-
-`jfgc && jfgp`
-
-#### Find files by tags and metadata
-
-To retreive a hash based on tags and metadata.
-
-`jrnl file @FILE-NAME` or `jrnl file @FILE-NAME @[OTHER-TAG] -and` to get the file hash.
-
-If you want to search by 'metadata', just open up
-
-`~/path/to/journal/content-addressable-files/content-addressable-files.txt`
-
-and search using your editor. It's not very elegant, but this is homegrown and experimental.
 
 #### Open or play the file
 
