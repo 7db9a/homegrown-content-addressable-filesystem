@@ -209,6 +209,12 @@ $peer-id is the Peer ID of the node you are backing up. To get your Peer ID:
 
 Doesn't backing up defeat the purpose of ipfs? No, this is a private network and if a node's hard-drive fails, you'll lose all its local ipfs files. Therefore, I prefer to backup each node to a single server.
 
+### Touch files with IPFS hash
+
+$ ./get-pinned.sh
+
+It'll put all IPFS 'files' into `pinned-files` dir. Note, these are empty files. They're simply named after the IPFS hash.
+
 ### Low-level usage
 
 Make sure your ipfs-network is up. If you don't remember how, see [here](https://github.com/7db9a/private-ipfs-docker).
