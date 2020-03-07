@@ -49,15 +49,15 @@ I think you can. I use git, ipfs, and tmsu. It's a hack, but it works and I'm ge
 
 To skip all this, go straight to [Setup](#setup).
 
-#### Git
+### Git
 
 If our data store (file name and other metadata) is a plain text file, we just eliminated any file-syncing issues. It's a global and distributed solution.
 
-#### IPFS
+### IPFS
 
 IPFS is good. You can create a private network and avoid syncing media files. The problem is finding files by name or other metadata, like tags. There is IPNS and IPFS does have an API for Mutable File System. In any case, it's too complicated at the moment for me to deal with. I need all the names to be the same on all the nodes. Syncing that is a bad idea for my use case. I'd rather push and pull to a central 'names repo'. That's where versioning TMSU's database comes in.
 
-#### TMSU
+### TMSU
 
 You can tag anything via cli. And it can create virtual-file system. It uses sqlite. That can act as a central 'names repo'. The single-file database should be easy to version control with git. Only one user is making entries, so throughput isn't an issue. And it will elimunate syncing issues.
 
@@ -65,7 +65,7 @@ If anyone has figured out how to push or pull ipfs' Mutable File System changes 
 
 ## Setup
 
-#### Clone this repo
+### Clone this repo
 
 ```
 git clone https://github.com/7db9a/homegrown-content-addressable-filesystem content-addressable-filesystem
@@ -78,15 +78,15 @@ Make the script executable.
 
 The script is for the `content-addr` commands and related.
 
-#### Setup a private IPFS network
+### Setup a private IPFS network
 
 https://github.com/7db9a/private-ipfs-docker
 
-#### Setup TMSU
+### Setup TMSU
 
 https://github.com/7db9a/tmsu-docker
 
-#### Add path and symlink
+### Add path and symlink
 
 Add the following to your .bashrc or other something similar to your shell related file.
 
@@ -110,25 +110,55 @@ sudo ln -s \
 /usr/local/bin/content-addr
 ```
 
-#### Setup remote git repo for TMSU db (haven't tried this yet so skip this for now)
+### Setup git repos for tag data
 
-If you want to version the tags and metadata, may I recommend a private git server. It's easy.
+We version control the TMSU data, including it's db's.
 
-On any other machine of yours.
+#### 1. Create remote git (pick any node)
+
+You must be able to ssh into it from all the other nodes. So maybe choose your bootsrap node.
 
 ```
-mkdir -p /path/to/tmsu-db/content-addressables/
-cd /path/to/tmsu-db/content-addressable-files/
+mkdir -p /path/to/content-addressables/remote/pinned-files
+cd /path/to/tmsu-db/content-addressable-files/remote/pinned-files
 git init --bare
 ```
 
-Then back to your original machine:
+#### 2. Create git working repos on the all the nodes (even if it has the remote repo).
 
 ```
-cd /path/to/tmsu-db/content-addressables/
+cd /path/to/content-addressables/working/pinned-files/
 git remote add origin \
-ssh://user@address/path/to/tmsu-db/content-addressables/`
+ssh://user@address/path/to/content-addressables/remote/pinned-files
 ```
+
+Nodes push and pull to and from the same `remote`.
+
+##### 3. Push first change to git remote.
+
+On a single node:
+
+`docker exec -it ipfs_host ipfs config show | grep PeerID`
+
+Use the PeerID and create the following path.
+
+```
+mdkir -p /path/to/content-addressables/working/pinned-files/$PEER_ID
+cd /path/to/content-addressables/working/pinned-files/$PEER_ID
+```
+Now run `../../../get-pinned.sh $PEER_ID`.
+
+Then git commit and push changes.
+
+```
+gcmsg "update"
+gp
+```
+
+#### 4. Repeat #3 on all the other nodes.
+
+Repeat, but `git pull origin master` before pushing changes.
+
 ## Advanced usage
 
 ### Backup a node
