@@ -134,7 +134,7 @@ ssh://user@address/path/to/content-addressables/remote/pinned-files
 
 Nodes push and pull to and from the same `remote`.
 
-##### 3. Push first change to git remote.
+#### 3. Push first change to git remote.
 
 On a single node:
 
@@ -182,9 +182,17 @@ Doesn't backing up defeat the purpose of ipfs? No, this is a private network and
 
 ### Touch files with IPFS hash
 
-$ ./get-pinned.sh
+Using your nodes $PEER_ID.
 
-It'll put all IPFS 'files' into `pinned-files` dir. Note, these are empty files. They're simply named after the IPFS hash. This is for experimentiong with tmsu.
+$ ./get-pinned.sh $PEER_ID
+
+The IPFS files it produces are 'null'. They are named after the IPFS hash. It's useful for tagging.
+
+All the null-ipfs files will be placed into the git working directory of the $PEER_ID.
+
+### Tag IPFS hash
+
+All nodes tag against null-ipfs files. Each node pushes to the same remote. Therefore, **any** node can search for **any** file on the network against tags.
 
 ### Low-level usage
 
