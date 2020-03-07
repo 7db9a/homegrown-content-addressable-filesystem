@@ -165,6 +165,20 @@ gp
 
 Repeat, but `git pull origin master` before pushing changes.
 
+#### 5. TMSU init
+
+```
+tmsu-docker
+cd /path/to/content-addressables/working/pinned-files
+mkdir mp
+tmsu init
+```
+To mount TMSU virtual file system.
+
+```
+tmsu mkdir mp
+tmsu mount mp
+```
 ## Advanced usage
 
 ### Backup a node
