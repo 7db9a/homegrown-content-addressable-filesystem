@@ -146,7 +146,13 @@ Use the PeerID and create the following path.
 mdkir -p /path/to/content-addressables/working/pinned-files/$PEER_ID
 cd /path/to/content-addressables/working/pinned-files/$PEER_ID
 ```
-Now run `../../../get-pinned.sh $PEER_ID`.
+
+Now get the node's 'ipfs null-file'.
+
+```
+cd /path/to/content-addressables
+./get-pinned.sh $PEER_ID
+```
 
 Then git commit and push changes.
 
