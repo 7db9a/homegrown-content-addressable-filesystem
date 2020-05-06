@@ -1,7 +1,5 @@
 #!/bin/bash
 
-PEER_ID=$1
-
 PINNED_DIR=working/pinned-files/$PEER_ID
 
 ipfs-pinned() {
