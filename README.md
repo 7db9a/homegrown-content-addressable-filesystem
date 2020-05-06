@@ -192,7 +192,7 @@ To backup your ipfs data to any server you can ssh into (preferable a swarm peer
 ```
 content-addr backup \
 $ssh-user $ssh-address \
-/path/to/content-addressable-filesystem/node-backup/ipfs/$peer-id
+/path/to/content-addressable-filesystem/nodes-backup/ipfs/$peer-id
 ```
 If you don't have the path made already, you should make it on the backup server.
 
