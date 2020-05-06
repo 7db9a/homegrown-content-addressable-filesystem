@@ -1,4 +1,5 @@
 .issues/
-nodes-backup/
+nodes-backup/*
 remote/
 working/
+!nodes-backup/README.md

@@ -90,9 +90,12 @@ https://github.com/7db9a/tmsu-docker
 
 Add the following to your .bashrc or other something similar to your shell related file.
 
-`export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging`
-
-Put in your own specific path `private-ipfs-docker/private-network-ipfs/staging`. You should have already setup the private ipfs network.
+```
+export PRIV_IPFS_STAGE=/path/to/private-ipfs-docker/private-network-ipfs/staging
+export PRIV_IPFS_DATA=/path/to/private-ipfs-docker/private-network-ipfs/data
+export PEER_ID=QmVQA8ENKHE48PeZem6Mj99RapUSYDGcxJysr8g6RuQEkk
+```
+Personally, I put it in `~/dotfiles/work/zsh/custom/content-addr.zsh`. I gitignore that file so I can variate the variables on different nodes. My nodes share the same dotfiles.
 
 Symlink `content-addressable-filesystem`.
 
@@ -179,6 +182,7 @@ To mount TMSU virtual file system.
 tmsu mkdir mp
 tmsu mount mp
 ```
+
 ## Advanced usage
 
 ### Backup a node
